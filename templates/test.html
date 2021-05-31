@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test NLP</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<style>
+
+.custom {
+  color: transparent;
+}
+.custom::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom::before {
+  content: 'Chọn ảnh';
+  border:1px solid;
+  color: white;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, blue);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom:hover::before {
+  border:1px solid red;
+  color:red;
+}
+.custom:active {
+  outline: 0;
+}
+.custom:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+
+body {
+  padding: 20px;
+}
+
+
+</style>
+<div class='container' style='text-align:center'>
+<div id='input' style="padding-top:20px;">
+	<fieldset style="border: 2px solid blue; background-color:#eeeeee; padding: 20px;">
+		<legend style="color:blue; font-weight:bold; font-size:150%;">Truy vấn ảnh sử dụng đặc trưng toàn cục</legend>
+		<div>
+			<div style="display:inline-block; min-height: 300px; width:40%; float: left;">
+				<div style="width:200px; height: 200px; margin:auto;">
+					<image id="shownImage" style="display:none; width: 200px; height: 200px;" src="" alt="chưa chọn ảnh"/>
+				</div>
+				<input id="chosenImage" class="custom" type="file" name="image" />
+				<button id="query" class="btn-primary" style="margin-bottom: 5px;">Truy vấn</button>
+			</div>
+			<div id="result" style="display:inline-block; float: left;min-height:300px; width:60%; text-align:left;">
+				<h2 style="text-align:center; color: blue">Kết quả truy vấn</h2>
+			</div>
+		</div>
+		
+	</fieldset>
+</div>
+
+</div>
+<script>
+$('#chosenImage').change(function(event){
+	var image_path = URL.createObjectURL(event.target.files[0]);
+	$('#shownImage').fadeIn("fast").attr('src',URL.createObjectURL(event.target.files[0]));
+});
+$('#query').click(function(){
+	$('#result').html('');
+	var image_path = $('#shownImage').attr('src');
+	var data = {"image_path":image_path};
+	$.post('/api',data,function(data){
+		image_paths = data.split(" ");
+		var n = image_paths.length - 1;
+		for(var i = 0; i < n; ++i){
+			var image = '<image src = "' +image_paths[i] + '" style="width:200px; height:200px; margin: 5px;" alt="hình ảnh"/>';
+			$('#result').append(image);
+		}
+	});
+});
+</script>
+</body>
+</html>
