@@ -9,8 +9,9 @@ def main():
 @app.route('/api', methods=['POST','GET'])
 def testCV():
     if(request.method=='POST'):
-        image_path = request.form.get('image_path');
-        data = md(image_path);
+        image_paths = request.form.get('image_paths')
+        image_paths = image_paths.split(',')
+        data = md(image_paths)
         result = ""
         for dt in data:
             result = result + dt + " "
