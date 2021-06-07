@@ -65,13 +65,13 @@ body {
 				<button id="query" class="btn-primary" style="margin-bottom: 5px;">Truy vấn</button>
 				<div id='shownImage' style="width:300px; margin:auto;">
 				</div>
-				
+
 			</div>
 			<div id="result" style="display:inline-block; float: left;min-height:300px; width:50%; text-align:left;">
 				<h2 style="text-align:center; color: blue">Kết quả truy vấn</h2>
 			</div>
 		</div>
-		
+
 	</fieldset>
 </div>
 
@@ -80,12 +80,11 @@ body {
 var image_paths = [];
 var i = 0;
 $('#chosenImage').change(function(event){
-	var image_path = URL.createObjectURL(event.target.files[0]);
+	var image_path = '../static/' + event.target.files[0].name;
 	image_paths.push(image_path);
 	var cl = 'image' + i;
-	var image = "<image class='image' id = '" + cl + "' alt='hình ảnh' />";
+	var image = "<image class='image' id = '" + cl + "' alt='hình ảnh' src='" + image_path + "'/>";
 	$('#shownImage').append(image);
-	$('#' + cl).fadeIn("fast").attr('src',image_path);
 	++i;
 });
 $('#query').click(function(){
